@@ -3,3 +3,5 @@ uvicorn
 gunicorn
 ultralytics
 starlette
+requests
+Pillow

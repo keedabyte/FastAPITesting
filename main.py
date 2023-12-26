@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from starlette.requests import Request
+from PIL import Image
+import requests
+import time
+from io import BytesIO
 
 
 # Create an instance of the FastAPI class
@@ -33,7 +37,11 @@ async def read_root():
 async def read_item(request: Request, image_url: str):
 
     model = request.app.model
-
-    print('model loaded successfully')
+    
+    response = requests.get(image_url)
+    img = Image.open(BytesIO(response.content))
+    t1 = time.time()
+    model_response = model(img)
+    print(f'TIME: {time.time() - t1}')
 
     return {'image_url': image_url}
